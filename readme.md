@@ -80,7 +80,7 @@ bool encode(char* key, BYTE *encoded)
     return true;
 }
 ```
-(Thanks Malwarebytes - Hasherezade)
+(Thanks to @Malwarebytes - @Hasherezade)
 
 This algorithm will convert the 16 bytes long key into a 32 bytes long key. This 32 bytes long key will be placed in the Configuration Sector for future Salsa20 Encryption usage.
 
