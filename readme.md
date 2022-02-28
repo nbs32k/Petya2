@@ -1,5 +1,6 @@
 ## Petya2 - Ransomware Open Source Project
-This project is meant for Educational Purposes, CyberSecurity Researches and similar stuff. This repository doesn't include any downloadable Binaries as this Project acts the same as the actual Petya Ransomware Executable.
+
+This project is meant for Educational Purposes, CyberSecurity Researches and similar stuff. This repository doesn't include any downloadable Binaries as this Project acts the same as the actual Petya Ransomware Executable. Even this would probably not look interesting in 2022 anymore but, there we go.
 
 ## What is Petya2 ?
 Petya2 is an Open Source (manually coded by me) executable that (has to) acts the same as Petya Ransomware Executable, that has the role of writting the malicious bootloader & micro-kernel, setting up the encryption keys and data for the micro-kernel to work and make the decryption process successful.
@@ -80,7 +81,7 @@ bool encode(char* key, BYTE *encoded)
     return true;
 }
 ```
-(Thanks to @Malwarebytes - @Hasherezade)
+(Thanks to @Malwarebytes - @hasherezade)
 
 This algorithm will convert the 16 bytes long key into a 32 bytes long key. This 32 bytes long key will be placed in the Configuration Sector for future Salsa20 Encryption usage.
 
