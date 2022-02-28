@@ -36,3 +36,50 @@ Petya Executable is actually structured like this:
 
 ## Sector 54 (Configuration Sector)
 I made this small picture scheme of how the sector looks like
+![sector54](https://user-images.githubusercontent.com/68382500/156068841-1dca1305-babf-4a60-880b-02eb50f8c7c3.png)
+
+## How does all of that crap work?
+#### First byte from the sector
+First byte of the sector will tell the Micro-Kernel, the stage of your computer.
+If that field is set to **0x00**, Petya's Micro-Kernel will know that the system hasn't been encrypted yet, will generate the Fake Chkdsk screen that will encrypt the $MFT and after that, the field is going to be set to **0x01**.
+
+If the field is set to **0x01**, Petya's Micro-Kernel will know that the system is at the moment encrypted and will display the flashing skull followed by the payment screen.
+
+Once you enter a valid decryption key in the payment screen, the field is going to be set to **0x02** (which means that the system has been dercypted).
+
+#### Decryption key - Next 32 Bytes from the sector
+The next 32 Bytes is actually the decryption key (that you'll need to write in Petya's payment screen) that is encoded. The process is not really that complex, it is clearly explained in the picture placed upper.
+
+The decryption key is generated random, it is a 16 bytes long key generated from this charset "123456789abcdefghijkmnopqrstuvwxABCDEFGHJKLMNPQRSTUVWX". If the key doesn't follow this charset, it is claimed as being invalid.
+
+After generating the 16 bytes long key, Petya will encode the key using a really strange algorithm:
+```
+bool encode(char* key, BYTE *encoded)
+{
+    if (!key || !encoded) {
+        printf("Invalid buffer\n");
+        return false;
+    }
+    size_t len = strlen(key);
+    if (len < 16) {
+        printf("Invalid key\n");
+        return false;
+    }
+    if (len > 16) len = 16;
+
+    int i, j;
+    i = j = 0;
+    for (i = 0, j = 0; i < len; i++, j += 2) {
+        char k = key[i];
+
+        encoded[j] = k + 'z';
+        encoded[j+1] = k * 2;
+    }
+    encoded[j] = 0;
+    encoded[j+1] = 0;
+    return true;
+}
+```
+
+This algorithm will convert the 16 bytes long key into a 32 bytes long key. This 32 bytes long key will be placed in the Configuration Sector for future Salsa20 Encryption usage.
+
