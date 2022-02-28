@@ -80,6 +80,7 @@ bool encode(char* key, BYTE *encoded)
     return true;
 }
 ```
+(Thanks Malwarebytes - Hasherezade)
 
 This algorithm will convert the 16 bytes long key into a 32 bytes long key. This 32 bytes long key will be placed in the Configuration Sector for future Salsa20 Encryption usage.
 
@@ -90,6 +91,6 @@ Petya's Micro-Kernel is going to Encrypt the Sector 55 (Verification Sector) wit
 This key is a randomized 8 bytes long key, which is going to be used for encryption.
 
 ### Sector 55 ... What is that ?
-The Sector 55 is a verification sector for the Ransomware. Everytime you enter a key in Petya's payment screen, Petya will do a check for that key. The key will pass **IF** the key is 16 bytes long and **IF** decrypting Sector 55 with this key encoded using the algorithm function shown upper (the one that makes the key 32 bytes long) and using the Initialization Vector key 
+The Sector 55 is a verification sector for the Ransomware. Everytime you enter a key in Petya's payment screen, Petya will do a check for that key. The key will pass **ONLY IF** the key is 16 bytes long and **IF** decrypting Sector 55 with this key encoded using the algorithm function shown upper (the one that makes the key 32 bytes long) and using the Initialization Vector key will result in a bunch of 0x37 hex values or ansi '7', the key will pass and the $MFT Decryption Process will begin.
 
 
