@@ -51,7 +51,7 @@ Once you enter a valid decryption key in the payment screen, the field is going 
 #### Decryption key - Next 32 Bytes from the sector
 The next 32 Bytes is actually the decryption key (that you'll need to write in Petya's payment screen) that is encoded. The process is not really that complex, it is clearly explained in the picture placed upper.
 
-The decryption key is generated random, it is a 16 bytes long key generated from this charset "123456789abcdefghijkmnopqrstuvwxABCDEFGHJKLMNPQRSTUVWX". If the key doesn't follow this charset, it is claimed as being invalid.
+The decryption key is generated randomly, it is a 16 bytes long key generated from this charset "123456789abcdefghijkmnopqrstuvwxABCDEFGHJKLMNPQRSTUVWX". If the key doesn't follow this charset, it is claimed as being invalid.
 
 After generating the 16 bytes long key, Petya will encode the key using a really strange algorithm:
 ```
