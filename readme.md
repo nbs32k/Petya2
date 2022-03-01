@@ -46,7 +46,7 @@ If that field is set to **0x00**, Petya's Micro-Kernel will know that the system
 
 If the field is set to **0x01**, Petya's Micro-Kernel will know that the system is at the moment encrypted and will display the flashing skull followed by the payment screen.
 
-Once you enter a valid decryption key in the payment screen, the field is going to be set to **0x02** (which means that the system has been dercypted).
+Once you enter a valid decryption key in the payment screen, the field is going to be set to **0x02** (which means that the system has been decrypted).
 
 #### Decryption key - Next 32 Bytes from the sector
 The next 32 Bytes is actually the decryption key (that you'll need to write in Petya's payment screen) that is encoded. The process is not really that complex, it is clearly explained in the picture placed upper.
